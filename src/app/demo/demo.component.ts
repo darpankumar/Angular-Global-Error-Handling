@@ -12,13 +12,6 @@ export class DemoComponent implements OnInit {
   ngOnInit() {}
 
   generateClientError() {
-    // try {
-    //   let a = null;
-    //   a.toString();
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     //This is done to produce error.
     let a = null;
     a.toString();
