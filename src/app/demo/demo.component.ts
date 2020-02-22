@@ -1,26 +1,26 @@
-import { Component, OnInit } from "@angular/core";
-import { RestHandlerService } from "../services/rest-handler.service";
+import { Component, OnInit } from '@angular/core';
+import { RestHandlerService } from '../services/rest-handler.service';
+import { Observable } from 'rxjs';
+import { Country } from '../model/Country';
 
 @Component({
-  selector: "app-demo",
-  templateUrl: "./demo.component.html",
-  styleUrls: ["./demo.component.scss"]
+  selector: 'app-demo',
+  templateUrl: './demo.component.html',
+  styleUrls: ['./demo.component.scss']
 })
 export class DemoComponent implements OnInit {
-  constructor(private restService: RestHandlerService) {}
 
-  ngOnInit() {}
+  public data$: Observable<Country[]>;
+  constructor(private restService: RestHandlerService) { }
+
+  ngOnInit() { }
 
   generateClientError() {
-    //This is done to produce error.
-    let a = null;
+    const a = null;
     a.toString();
   }
 
-  generateBackendError() {
-    // replace the url with service you want to use
-    this.restService.get("http://localhost:8080/get").subscribe(data => {
-      console.log("data is", data);
-    });
+  generateBackendStatus(status) {
+    this.data$ = this.restService.get(`http://localhost:8080/getStatus?status=${status}`);
   }
 }

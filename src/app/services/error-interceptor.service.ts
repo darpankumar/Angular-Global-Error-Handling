@@ -1,26 +1,46 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent
-} from "@angular/common/http";
-import { Observable, throwError, empty } from "rxjs";
-import { catchError } from "rxjs/operators";
-import { RestHandlerService } from "./rest-handler.service";
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import {
+  catchError,
+  flatMap
+} from 'rxjs/operators';
+import { TokenRefreshService } from './token-refresh.service';
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class ErrorInterceptorService implements HttpInterceptor {
-  constructor(private restService: RestHandlerService) {}
+
+  constructor(private tokenRefreshService: TokenRefreshService) { }
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // Avoid status check for api which refresh token otherwise it will go to infinte loop
+    let count = 0;
     return next.handle(req).pipe(
-      catchError(error => {
-        alert("Error Handle using interceptor");
-        return throwError(error);
+      catchError((error) => {
+        debugger;
+        count++;
+        if (count > 1 || error.status === 404) {
+          throw error;
+        } else if (error.status === 401) {
+          return this.tokenRefreshService.getNewToken().pipe(flatMap(val => {
+            const updatedReq = req.clone({
+              setHeaders: {
+                'Authorization': val
+              }
+            });
+            return next.handle(updatedReq);
+          }));
+        } else {
+          return next.handle(req);
+        }
       })
     );
   }
