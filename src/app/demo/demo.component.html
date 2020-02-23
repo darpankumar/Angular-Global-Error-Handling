@@ -3,10 +3,11 @@
 </div>
 <div class="btn-group">
 <button class="btn" (click)="generateClientError()"> Generate client side Error</button>
+<button class="btn" (click)="generateBackendStatus(200)">show table</button>
+<button class="btn" (click)="generateBackendStatus(504)">Generate Error 504 </button>
 <button class="btn" (click)="generateBackendStatus(401)"> Generate Error 401</button>
 <button class="btn" (click)="generateBackendStatus(404)">Generate Error 404</button>
-<button class="btn" (click)="generateBackendStatus(504)">Generate Error 504 </button>
-<button class="btn" (click)="generateBackendStatus(200)">show table</button>
+
 </div>
 <table *ngIf="data$ | async as data">
   <tr>
