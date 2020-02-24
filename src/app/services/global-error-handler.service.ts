@@ -12,18 +12,9 @@ export class GlobalErrorHandlerService extends ErrorHandler {
   }
 
   handleError(error) {
-
-    // //HttpErrorResponse is error reponse for http calls 
-    // if (!(error instanceof HttpErrorResponse)) {
-
-    //   alert('An Client side Error occur');
-    // }
-
     if (error instanceof HttpErrorResponse) {
-
       alert('Backend error occur')
     } else {
-
       alert('Frontend error occur');
     }
     this.loggingService.logError(error);

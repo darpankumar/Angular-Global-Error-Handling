@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { RollbarService } from '../config';
 import * as Rollbar from 'rollbar';
 
 @Injectable({
@@ -6,9 +7,12 @@ import * as Rollbar from 'rollbar';
 })
 export class LoggingService {
 
-  constructor(private rollbar: Rollbar) { }
+  rollbar: Rollbar;
+  constructor(private injector: Injector) {
+  }
 
   logError(error) {
-    this.rollbar.error(error.message);
+    const rollbar = this.injector.get(RollbarService);
+    rollbar.error(error.message);
   }
 }
