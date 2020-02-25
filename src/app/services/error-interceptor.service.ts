@@ -25,7 +25,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
     let count = 0;
     return next.handle(req).pipe(
       catchError((error) => {
-        debugger;
+        //debugger;
         count++;
         if (count > 1 || error.status === 404) {
           throw error;
@@ -38,6 +38,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
             });
             return next.handle(updatedReq);
           }));
+          //This could be 504 or other status code
         } else {
           return next.handle(req);
         }
