@@ -21,11 +21,11 @@ export class ErrorInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Avoid status check for api which refresh token otherwise it will go to infinte loop
+    // this count check is to retry the call up to a fix no of times
     let count = 0;
     return next.handle(req).pipe(
       catchError((error) => {
-        //debugger;
+        debugger;
         count++;
         if (count > 1 || error.status === 404) {
           throw error;
@@ -40,6 +40,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
           }));
           //This could be 504 or other status code
         } else {
+          // here we are retrying the call
           return next.handle(req);
         }
       })

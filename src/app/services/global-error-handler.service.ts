@@ -12,9 +12,9 @@ export class GlobalErrorHandlerService {
   handleError(error) {
     debugger;
     if (error instanceof HttpErrorResponse) {
-      alert('Backend error occur')
+      alert('Backend error occured')
     } else {
-      alert('Frontend error occur');
+      alert('Frontend error occured');
     }
     this.loggingService.logError(error);
     console.error(error);
@@ -25,8 +25,8 @@ export class GlobalErrorHandlerService {
 
 
 
-// you can also do this if you want the defualt functionality as well using super
-//export class GlobalErrorHandlerService extends ErrorHandler {
+//you can also do this if you want the defualt functionality as well using super
+// export class GlobalErrorHandlerService extends ErrorHandler {
 
 //   constructor(private loggingService: LoggingService) {
 //     super();

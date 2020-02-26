@@ -2,7 +2,8 @@ import * as Rollbar from 'rollbar';
 import { InjectionToken } from '@angular/core';
 
 const rollBarConfig = {
-  accessToken: 'd875b0e557544bb39021bf7ff48ef188',
+  accessToken: 'dae488098b234216965f0514fbb7a601',
+
   captureUncaught: true,
   captureUnhandledRejections: true,
 };
