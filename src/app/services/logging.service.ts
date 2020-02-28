@@ -13,6 +13,6 @@ export class LoggingService {
 
   logError(error) {
     const rollbar = this.injector.get(RollbarService);
-    rollbar.error(error.message);
+    rollbar.error(error.stack || error.message);
   }
 }

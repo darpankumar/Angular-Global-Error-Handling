@@ -25,3 +25,8 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+## Important links
+https://medium.com/@amcdnl/global-error-handling-with-angular2-6b992bdfb59c
+https://scotch.io/bar-talk/error-handling-with-angular-6-tips-and-best-practices192

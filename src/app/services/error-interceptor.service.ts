@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
   HttpRequest,
   HttpHandler,
-  HttpEvent
+  HttpEvent,
+  HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {
@@ -21,15 +21,10 @@ export class ErrorInterceptorService implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // this count check is to retry the call up to a fix no of times
-    let count = 0;
     return next.handle(req).pipe(
       catchError((error) => {
-        debugger;
-        count++;
-        if (count > 1 || error.status === 404) {
-          throw error;
-        } else if (error.status === 401) {
+        //debugger;
+        if (error.status === 401) {
           return this.tokenRefreshService.getNewToken().pipe(flatMap(val => {
             const updatedReq = req.clone({
               setHeaders: {
@@ -38,10 +33,12 @@ export class ErrorInterceptorService implements HttpInterceptor {
             });
             return next.handle(updatedReq);
           }));
-          //This could be 504 or other status code
-        } else {
+        } else if (error.status === 504) {
           // here we are retrying the call
           return next.handle(req);
+        } else {
+          // example like 404
+          throw error;
         }
       })
     );
